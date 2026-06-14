@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Override</string>
-    <string name="override_summary">Device spoofing, keybox, Play Integrity</string>
 
     <!-- Main -->
     <string name="master_switch">Enable Override</string>
     <string name="master_switch_summary">Master switch for all spoofing features</string>
     <string name="status_active">✅ Active</string>
     <string name="status_disabled">❌ Disabled</string>
-    <string name="pi_status">Play Integrity Status</string>
 
     <!-- Sections -->
     <string name="section_fingerprint">Fingerprint Spoofing</string>
     <string name="section_fingerprint_desc">Spoof device identity for GMS</string>
     <string name="section_keybox">Keybox Manager</string>
     <string name="section_keybox_desc">Import and manage attestation keybox</string>
-    <string name="section_integrity">Integrity Checker</string>
-    <string name="section_integrity_desc">Check Play Integrity status</string>
     <string name="section_anti_detection">Anti-Detection</string>
     <string name="section_anti_detection_desc">Hide root and spoofing traces</string>
 
@@ -53,9 +49,6 @@
     <string name="profile_saved">✅ Profile saved</string>
     <string name="profile_activated">✅ Profile activated</string>
 
-    <!-- Integrity -->
-    <string name="check_integrity">Run Check</string>
-    <string name="integrity_title">Play Integrity Prediction</string>
     <string name="basic_label">BASIC</string>
     <string name="device_label">DEVICE</string>
     <string name="strong_label">STRONG</string>

@@ -45,8 +45,6 @@ public class MainFragment extends Fragment {
                 navigateTo("fingerprint"));
         view.findViewById(R.id.card_keybox).setOnClickListener(v ->
                 navigateTo("keybox"));
-        view.findViewById(R.id.card_integrity).setOnClickListener(v ->
-                navigateTo("integrity"));
         view.findViewById(R.id.card_anti_detection).setOnClickListener(v ->
                 navigateTo("anti_detection"));
 
