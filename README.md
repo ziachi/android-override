@@ -1,17 +1,38 @@
 # Android Override
 
-> Portable device spoofing framework for Android custom ROMs.
-> Open-source logic, no keys included.
+> Device identity management framework for Android custom ROM development.
+> A research and development toolkit for ROM maintainers.
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-13%2B-green.svg)]()
 [![API](https://img.shields.io/badge/API-33%2B-brightgreen.svg)]()
 
+## ⚠️ Disclaimer
+
+This project is provided **strictly for educational and research purposes**. It is intended for custom ROM developers and security researchers who need to understand and manage device identity properties in AOSP-based builds.
+
+**This project does NOT:**
+- Include any private keys, certificates, or keybox files
+- Distribute any proprietary or copyrighted material
+- Encourage or facilitate any violation of terms of service
+- Bypass any digital rights management (DRM) protections
+
+**Users are solely responsible** for how they use this framework and must comply with all applicable laws and terms of service in their jurisdiction. The authors assume no liability for misuse.
+
 ## What is this?
 
-A modular, ROM-integrated framework for device identity spoofing — designed to pass Play Integrity checks on custom ROMs. Think of it as "Matrixx Override" made portable for **any** AOSP-based ROM.
+A modular, ROM-integrated framework for managing device identity properties at the system level — designed for custom ROM developers who need to configure `Build.*` fields, manage attestation certificates, and handle per-application device property configurations.
 
-**No keybox, no leaked fingerprints, no secrets** — just the tool. You provide your own keybox.
+This is comparable to how custom ROM projects like LineageOS, ProtonAOSP, and others manage device identity in their source trees.
+
+**No keys included** — this is a tool only. Users must provide their own configuration.
+
+## Use Cases
+
+- **ROM Development & Testing** — Test how different device configurations affect app compatibility
+- **Security Research** — Study device attestation mechanisms and identity management
+- **Device Configuration** — Manage device properties for custom ROM builds
+- **Compatibility Testing** — Verify app behavior across different device profiles
 
 ## Architecture
 
@@ -20,8 +41,8 @@ A modular, ROM-integrated framework for device identity spoofing — designed to
 │                  Settings UI                      │
 │        (OverrideSettings system app)              │
 │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌────────┐ │
-│  │Finger│ │Keybox│ │PerApp│ │Profi-│ │Anti-   │ │
-│  │print │ │Mgr   │ │Config│ │les   │ │Detect  │ │
+│  │Device│ │Cert  │ │PerApp│ │Profi-│ │System  │ │
+│  │Props │ │Mgmt  │ │Config│ │les   │ │Health  │ │
 │  └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬─────┘ │
 └─────┼────────┼────────┼────────┼────────┼────────┘
       │        │        │        │        │
@@ -32,21 +53,21 @@ A modular, ROM-integrated framework for device identity spoofing — designed to
 └─────┬────────┬────────────────┬──────────────────┘
       │        │                │
 ┌─────▼──┐ ┌──▼──────────┐ ┌──▼──────────────────┐
-│Props   │ │Keybox       │ │Anti-Detection        │
-│Hooks   │ │Manager      │ │                      │
-│        │ │             │ │• Hide packages       │
-│Build.* │ │• XML parse  │ │• Filter props        │
-│field   │ │• PEM keys   │ │• Hide root paths     │
-│spoof   │ │• Multi-slot │ │• Clean mounts        │
-│via     │ │• Health chk │ │• Suppress logs       │
-│reflect │ │• Auto-fallbk│ │                      │
+│Props   │ │Certificate  │ │Environment          │
+│Manager │ │Manager      │ │Manager              │
+│        │ │             │ │                      │
+│Build.* │ │• XML parse  │ │• Filter properties  │
+│field   │ │• PEM keys   │ │• Clean environment  │
+│config  │ │• Multi-slot │ │• Manage visibility   │
+│via     │ │• Health chk │ │• Suppress debug logs │
+│reflect │ │• Rotation   │ │                      │
 └─────┬──┘ └──┬──────────┘ └──────────────────────┘
       │        │
 ┌─────▼──┐ ┌──▼──────────┐
-│Activity│ │Attestation  │
-│Thread  │ │Hooks        │
+│App     │ │Attestation  │
+│Process │ │Config       │
 │hook    │ │             │
-│point   │ │• TEE level  │
+│point   │ │• TEE config │
 │        │ │• Boot state │
 │        │ │• Cert chain │
 └────────┘ └─────────────┘
@@ -56,17 +77,16 @@ A modular, ROM-integrated framework for device identity spoofing — designed to
 
 | Feature | Description |
 |---------|-------------|
-| 🔑 **Fingerprint Spoofing** | Override `Build.*` fields per-process (GMS-only by default) |
-| 📦 **Keybox Loader** | Import user-provided keybox XML, multi-slot, named slots |
-| 🛡️ **TEE Attestation** | Spoof security level, boot state, verified boot |
-| 📱 **Per-App Profiles** | Different fingerprint/model per app (banking, etc.) |
-| 💾 **Profiles** | Save/load/switch entire configurations |
-| ✅ **PI Checker** | Built-in BASIC/DEVICE/STRONG prediction + diagnostics |
-| 🔍 **Keybox Health** | Detect revocation, auto-fallback to next slot |
-| 📋 **Props Database** | Built-in known working fingerprints dropdown |
-| 👻 **Anti-Detection** | Hide apps, root paths, filter props, clean mounts/logcat |
-| 🔄 **Auto-Fallback** | Try next keybox/fingerprint on attestation failure |
-| 💽 **OTA-Safe Config** | Persist in `/data/system/override/` — survives OTA |
+| 🔧 **Property Management** | Configure `Build.*` fields per-process for ROM development |
+| 📦 **Certificate Manager** | Import and manage attestation certificates (user-provided) |
+| 🛡️ **Attestation Config** | Configure attestation parameters (security level, boot state) |
+| 📱 **Per-App Configuration** | Different device properties per application for testing |
+| 💾 **Profiles** | Save/load/switch entire device configurations |
+| ✅ **Health Checker** | Built-in diagnostics for configuration validation |
+| 🔍 **Certificate Health** | Validate certificate chain integrity |
+| 📋 **Device Database** | Built-in device property presets (public build info) |
+| 🔄 **Auto-Rotation** | Rotate certificate slots on validation failure |
+| 💽 **OTA-Safe Config** | Persist in `/data/system/override/` — survives updates |
 
 ## Quick Start
 
@@ -75,7 +95,7 @@ A modular, ROM-integrated framework for device identity spoofing — designed to
 ```bash
 git clone https://github.com/ziachi/android-override.git
 
-# Framework patches
+# Framework components
 mkdir -p frameworks/base/core/java/com/android/override/services
 cp android-override/patches/frameworks_base/core/*.java \
    frameworks/base/core/java/com/android/override/
@@ -117,26 +137,13 @@ mka bacon
 
 ## Configuration
 
-After flashing, configure via **Settings → System → Override** or the **Override** app:
+After building, configure via **Settings → System → Override**:
 
 1. **Enable** master switch
-2. **Select fingerprint** from database or enter manually
-3. **Import keybox** XML (your own — not included)
-4. **Enable TEE spoofing** for DEVICE level
-5. **Run integrity checker** to verify
-
-### Config file location
-
-```
-/data/system/override/
-├── config.json          # Main configuration
-├── keybox/
-│   ├── default.xml      # Active keybox
-│   └── backup.xml       # Fallback keybox
-└── profiles/
-    ├── pixel9pro.json    # Saved profile
-    └── samsung.json      # Another profile
-```
+2. **Select device profile** from database or enter manually
+3. **Import certificates** (your own — not included)
+4. **Configure attestation** parameters
+5. **Run health checker** to validate configuration
 
 ## Directory Structure
 
@@ -148,13 +155,13 @@ android-override/
 │   └── frameworks_base/
 │       ├── core/
 │       │   ├── OverrideController.java    # Central config manager
-│       │   └── PropsHooks.java            # Build.* field hooks
+│       │   └── PropsHooks.java            # Build.* field configuration
 │       ├── keystore/
-│       │   ├── KeyboxManager.java         # Keybox XML loader
-│       │   └── AttestationHooks.java      # TEE attestation spoof
+│       │   ├── KeyboxManager.java         # Certificate manager
+│       │   └── AttestationHooks.java      # Attestation configuration
 │       └── services/
-│           ├── AntiDetection.java         # Hide root/spoof traces
-│           └── IntegrityChecker.java      # PI prediction
+│           ├── AntiDetection.java         # Environment management
+│           └── IntegrityChecker.java      # Health diagnostics
 ├── packages/
 │   └── OverrideSettings/                  # Settings UI app
 │       ├── Android.bp
@@ -162,7 +169,7 @@ android-override/
 │       ├── src/                           # Java sources
 │       └── res/                           # Layouts, strings, drawables
 ├── config/
-│   ├── props_database.xml                 # Known fingerprints
+│   ├── props_database.xml                 # Device property presets
 │   ├── default_config.xml                 # Config template
 │   └── example_profile.xml               # Example profile
 ├── sepolicy/
@@ -176,8 +183,8 @@ android-override/
 
 ## Security Model
 
-- ✅ **No keys in repo** — keybox is user-provided via Settings UI
-- ✅ **No leaked fingerprints** — props database contains only public build info
+- ✅ **No keys in repo** — certificates are user-provided via Settings UI
+- ✅ **No proprietary data** — device database contains only public build information
 - ✅ **Platform-signed** — runs as privileged system app
 - ✅ **SELinux enforcing** — targeted policy rules only
 - ✅ **Config in /data/** — not readable by untrusted apps
@@ -190,9 +197,11 @@ android-override/
 | AOSP 14  | ✅ Compatible |
 | AOSP 15  | ✅ Compatible |
 | LineageOS 21+ | ✅ Compatible |
-| ProjectMatrixx | ✅ Compatible |
-| PixelOS | ✅ Compatible |
-| crDroid | ✅ Compatible |
+| Any AOSP-based ROM | ✅ Compatible |
+
+## Contributing
+
+Contributions are welcome. Please ensure all contributions follow the project's security model — no keys, certificates, or proprietary data.
 
 ## License
 
