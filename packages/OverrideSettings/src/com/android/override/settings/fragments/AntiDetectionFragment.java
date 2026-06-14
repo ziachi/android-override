@@ -58,11 +58,6 @@ public class AntiDetectionFragment extends Fragment {
                 mController.isHideAppsEnabled(),
                 checked -> mController.setHideApps(checked));
 
-        // TEE spoofing toggle
-        setupSwitch(view, R.id.switch_tee_spoof,
-                mController.isSpoofTEEEnabled(),
-                checked -> mController.setSpoofTEE(checked));
-
         // Hidden apps list
         RecyclerView hiddenList = view.findViewById(R.id.list_hidden_apps);
         if (hiddenList != null) {
