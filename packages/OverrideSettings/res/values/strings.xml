@@ -63,7 +63,6 @@
     <string name="tee_spoof_summary">Spoof security level to TrustedEnvironment</string>
     <string name="auto_fallback_switch">Auto-Fallback</string>
     <string name="auto_fallback_summary">Auto-switch profile when attestation fails</string>
-    <string name="bootloader_state">Bootloader State</string>
     <string name="add_hidden_app">Add Hidden App</string>
     <string name="hidden_apps_title">Hidden Apps</string>
     <string name="long_press_remove">Long press to remove</string>

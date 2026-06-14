@@ -68,19 +68,6 @@ public class AntiDetectionFragment extends Fragment {
                 mController.isAutoFallbackEnabled(),
                 checked -> mController.setAutoFallback(checked));
 
-        // Bootloader state selector
-        view.findViewById(R.id.btn_bootloader_state).setOnClickListener(v -> {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Bootloader State")
-                    .setItems(new String[]{"Locked (Green)", "Unlocked (Orange)"}, (dialog, which) -> {
-                        String state = which == 0 ? "locked" : "unlocked";
-                        mController.setBootloaderState(state);
-                        updateBootloaderStatus(view);
-                    })
-                    .show();
-        });
-        updateBootloaderStatus(view);
-
         // Hidden apps list
         RecyclerView hiddenList = view.findViewById(R.id.list_hidden_apps);
         if (hiddenList != null) {
@@ -99,18 +86,6 @@ public class AntiDetectionFragment extends Fragment {
         if (sw != null) {
             sw.setChecked(initialValue);
             sw.setOnCheckedChangeListener((buttonView, isChecked) -> callback.onChanged(isChecked));
-        }
-    }
-
-    private void updateBootloaderStatus(View root) {
-        TextView status = root.findViewById(R.id.text_bootloader_status);
-        if (status != null) {
-            String state = mController.getBootloaderState();
-            if ("locked".equals(state)) {
-                status.setText("🟢 Locked (Verified Boot: Green)");
-            } else {
-                status.setText("🟠 Unlocked (Verified Boot: Orange)");
-            }
         }
     }
 
