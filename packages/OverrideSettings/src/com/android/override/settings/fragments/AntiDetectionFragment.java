@@ -63,11 +63,6 @@ public class AntiDetectionFragment extends Fragment {
                 mController.isSpoofTEEEnabled(),
                 checked -> mController.setSpoofTEE(checked));
 
-        // Auto-fallback toggle
-        setupSwitch(view, R.id.switch_auto_fallback,
-                mController.isAutoFallbackEnabled(),
-                checked -> mController.setAutoFallback(checked));
-
         // Hidden apps list
         RecyclerView hiddenList = view.findViewById(R.id.list_hidden_apps);
         if (hiddenList != null) {
