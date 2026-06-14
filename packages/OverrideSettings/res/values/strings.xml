@@ -15,10 +15,6 @@
     <string name="section_fingerprint_desc">Spoof device identity for GMS</string>
     <string name="section_keybox">Keybox Manager</string>
     <string name="section_keybox_desc">Import and manage attestation keybox</string>
-    <string name="section_per_app">Per-App Profiles</string>
-    <string name="section_per_app_desc">Different spoofing per app</string>
-    <string name="section_profiles">Profiles</string>
-    <string name="section_profiles_desc">Save and switch configurations</string>
     <string name="section_integrity">Integrity Checker</string>
     <string name="section_integrity_desc">Check Play Integrity status</string>
     <string name="section_anti_detection">Anti-Detection</string>
@@ -49,8 +45,6 @@
 
     <!-- Per-App -->
     <string name="add_app">Add App</string>
-    <string name="per_app_title">Per-App Spoofing</string>
-    <string name="per_app_desc">Configure different fingerprint per app</string>
     <string name="using_global">Using global config</string>
 
     <!-- Profiles -->

@@ -63,12 +63,6 @@ public class OverrideSettingsActivity extends AppCompatActivity {
             case "keybox":
                 fragment = new KeyboxFragment();
                 break;
-            case "per_app":
-                fragment = new PerAppFragment();
-                break;
-            case "profiles":
-                fragment = new ProfilesFragment();
-                break;
             case "integrity":
                 fragment = new IntegrityFragment();
                 break;
