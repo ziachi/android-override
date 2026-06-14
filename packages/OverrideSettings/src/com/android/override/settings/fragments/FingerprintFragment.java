@@ -5,9 +5,9 @@
 
 package com.android.override.settings.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,37 +15,35 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.android.override.OverrideController;
 import com.android.override.settings.R;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Fragment for configuring device fingerprint spoofing.
- *
- * Features:
- * - Select from props database (dropdown)
- * - Manual fingerprint input
- * - Individual field overrides (model, manufacturer, etc.)
- * - Live preview of spoofed identity
- */
 public class FingerprintFragment extends Fragment {
+
+    private static final int PICK_JSON_FILE = 2001;
 
     private OverrideController mController;
 
-    private Spinner mPropsSpinner;
     private EditText mFingerprintEdit;
     private EditText mModelEdit;
     private EditText mManufacturerEdit;
     private EditText mProductEdit;
     private EditText mDeviceEdit;
+    private EditText mBrandEdit;
     private EditText mSecurityPatchEdit;
-    private TextView mPreviewText;
+    private Spinner mDatabaseSpinner;
 
     private boolean mIgnoreTextChange = false;
 
@@ -55,62 +53,110 @@ public class FingerprintFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fingerprint, container, false);
         mController = OverrideController.getInstance();
 
-        // Props database spinner
-        mPropsSpinner = view.findViewById(R.id.spinner_props);
-        setupPropsSpinner();
-
-        // Edit fields
         mFingerprintEdit = view.findViewById(R.id.edit_fingerprint);
         mModelEdit = view.findViewById(R.id.edit_model);
         mManufacturerEdit = view.findViewById(R.id.edit_manufacturer);
         mProductEdit = view.findViewById(R.id.edit_product);
         mDeviceEdit = view.findViewById(R.id.edit_device);
+        mBrandEdit = view.findViewById(R.id.edit_brand);
         mSecurityPatchEdit = view.findViewById(R.id.edit_security_patch);
-        mPreviewText = view.findViewById(R.id.text_preview);
+        mDatabaseSpinner = view.findViewById(R.id.spinner_database);
 
-        // Load current values
         loadCurrentValues();
+        setupDatabaseSpinner();
 
-        // Text watchers for auto-save
-        addAutoSave(mFingerprintEdit, value -> mController.setFingerprint(value));
-        addAutoSave(mModelEdit, value -> mController.setModel(value));
-        addAutoSave(mManufacturerEdit, value -> mController.setManufacturer(value));
-        addAutoSave(mProductEdit, value -> mController.setProduct(value));
-        addAutoSave(mDeviceEdit, value -> mController.setDevice(value));
-        addAutoSave(mSecurityPatchEdit, value -> mController.setSecurityPatch(value));
+        // JSON import
+        view.findViewById(R.id.btn_import_json).setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("*/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select Build JSON"), PICK_JSON_FILE);
+        });
 
-        // Parse fingerprint button
-        view.findViewById(R.id.btn_parse_fingerprint).setOnClickListener(v -> {
-            parseFingerprint();
+        // Save
+        view.findViewById(R.id.btn_save).setOnClickListener(v -> {
+            mController.setFingerprint(mFingerprintEdit.getText().toString().trim());
+            mController.setModel(mModelEdit.getText().toString().trim());
+            mController.setManufacturer(mManufacturerEdit.getText().toString().trim());
+            mController.setProduct(mProductEdit.getText().toString().trim());
+            mController.setDevice(mDeviceEdit.getText().toString().trim());
+            mController.setBrand(mBrandEdit.getText().toString().trim());
+            mController.setSecurityPatch(mSecurityPatchEdit.getText().toString().trim());
+            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+        });
+
+        // Clear
+        view.findViewById(R.id.btn_clear).setOnClickListener(v -> {
+            mIgnoreTextChange = true;
+            mFingerprintEdit.setText("");
+            mModelEdit.setText("");
+            mManufacturerEdit.setText("");
+            mProductEdit.setText("");
+            mDeviceEdit.setText("");
+            mBrandEdit.setText("");
+            mSecurityPatchEdit.setText("");
+            mIgnoreTextChange = false;
+            mController.clearFingerprint();
+            Toast.makeText(getContext(), "Cleared", Toast.LENGTH_SHORT).show();
         });
 
         return view;
     }
 
-    private void setupPropsSpinner() {
-        Map<String, OverrideController.PropsEntry> database = mController.getPropsDatabase();
-        ArrayList<String> labels = new ArrayList<>();
-        labels.add("-- Select device --");
-        labels.addAll(database.keySet());
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_JSON_FILE && getActivity() != null
+                && resultCode == getActivity().RESULT_OK
+                && data != null && data.getData() != null) {
+            importBuildJson(data.getData());
+        }
+    }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                getContext(), android.R.layout.simple_spinner_item, labels);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mPropsSpinner.setAdapter(adapter);
+    private void importBuildJson(Uri uri) {
+        try {
+            InputStream is = getContext().getContentResolver().openInputStream(uri);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line);
+            reader.close();
+            is.close();
 
-        mPropsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) return; // Skip "Select device"
-                String label = labels.get(position);
-                mController.applyPropsEntry(label);
-                loadCurrentValues();
-                updatePreview();
+            JSONObject json = new JSONObject(sb.toString());
+
+            mIgnoreTextChange = true;
+
+            if (json.has("FINGERPRINT") && !json.optString("FINGERPRINT").isEmpty()) {
+                mFingerprintEdit.setText(json.getString("FINGERPRINT"));
+            } else if (json.has("BRAND") && json.has("PRODUCT") && json.has("DEVICE")) {
+                String fp = json.optString("BRAND", "") + "/"
+                        + json.optString("PRODUCT", "") + "/"
+                        + json.optString("DEVICE", "") + ":"
+                        + json.optString("RELEASE", "15") + "/"
+                        + json.optString("ID", "") + "/"
+                        + json.optString("ID", "") + ":"
+                        + json.optString("TYPE", "user") + "/release-keys";
+                mFingerprintEdit.setText(fp);
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+            if (json.has("MODEL")) mModelEdit.setText(json.getString("MODEL"));
+            if (json.has("MANUFACTURER")) mManufacturerEdit.setText(json.getString("MANUFACTURER"));
+            if (json.has("PRODUCT")) mProductEdit.setText(json.getString("PRODUCT"));
+            if (json.has("DEVICE")) mDeviceEdit.setText(json.getString("DEVICE"));
+            if (json.has("BRAND")) mBrandEdit.setText(json.getString("BRAND"));
+            if (json.has("SECURITY_PATCH")) mSecurityPatchEdit.setText(json.getString("SECURITY_PATCH"));
+
+            mIgnoreTextChange = false;
+
+            Toast.makeText(getContext(),
+                    "Imported: " + json.optString("MODEL", "Unknown"),
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(),
+                    "Import failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void loadCurrentValues() {
@@ -120,118 +166,37 @@ public class FingerprintFragment extends Fragment {
         setText(mManufacturerEdit, mController.getManufacturer());
         setText(mProductEdit, mController.getProduct());
         setText(mDeviceEdit, mController.getDevice());
+        setText(mBrandEdit, mController.getBrand());
         setText(mSecurityPatchEdit, mController.getSecurityPatch());
         mIgnoreTextChange = false;
-        updatePreview();
     }
 
     private void setText(EditText edit, String value) {
         edit.setText(value != null ? value : "");
     }
 
-    /**
-     * Parse fingerprint string and auto-fill individual fields.
-     * Format: brand/product/device:version/buildId/incremental:type/tags
-     */
-    private void parseFingerprint() {
-        String fp = mFingerprintEdit.getText().toString().trim();
-        if (fp.isEmpty()) return;
+    private void setupDatabaseSpinner() {
+        Map<String, OverrideController.PropsEntry> database = mController.getPropsDatabase();
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("Select device...");
+        labels.addAll(database.keySet());
 
-        try {
-            String[] mainParts = fp.split(":");
-            if (mainParts.length >= 2) {
-                String[] brandParts = mainParts[0].split("/");
-                if (brandParts.length >= 3) {
-                    // brand/product/device
-                    mManufacturerEdit.setText(brandParts[0]);
-                    mProductEdit.setText(brandParts[1]);
-                    mDeviceEdit.setText(brandParts[2]);
-                }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_spinner_item, labels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mDatabaseSpinner.setAdapter(adapter);
 
-                String[] versionParts = mainParts[1].split("/");
-                if (versionParts.length >= 3) {
-                    // Security patch from build ID
-                    String buildId = versionParts[1];
-                    // Try to extract date: AP4A.250205.002 → 2025-02-05
-                    if (buildId.length() >= 11) {
-                        String dateStr = buildId.substring(5, 11);
-                        if (dateStr.length() == 6) {
-                            String patch = "20" + dateStr.substring(0, 2) + "-"
-                                    + dateStr.substring(2, 4) + "-"
-                                    + dateStr.substring(4, 6);
-                            mSecurityPatchEdit.setText(patch);
-                        }
-                    }
-                }
-
-                if (mainParts.length >= 3) {
-                    String typeTags = mainParts[2]; // type/tags
-                    // Could extract type (user/userdebug) if needed
-                }
-            }
-
-            // Auto-detect model from known devices
-            String brand = fp.split("/")[0].toLowerCase();
-            if ("google".equals(brand)) {
-                String device = fp.split("/")[2].split(":")[0];
-                mModelEdit.setText(getGoogleModelName(device));
-            }
-
-            updatePreview();
-        } catch (Exception e) {
-            // Ignore parse errors
-        }
-    }
-
-    private String getGoogleModelName(String device) {
-        switch (device) {
-            case "husky": return "Pixel 8 Pro";
-            case "shiba": return "Pixel 8";
-            case "akita": return "Pixel 8a";
-            case "caiman": return "Pixel 9";
-            case "komodo": return "Pixel 9 Pro";
-            case "comet": return "Pixel 9 Pro Fold";
-            case "tokay": return "Pixel 9a";
-            case "cheetah": return "Pixel 7 Pro";
-            case "panther": return "Pixel 7";
-            case "lynx": return "Pixel 7a";
-            case "felix": return "Pixel Fold";
-            default: return device;
-        }
-    }
-
-    private void updatePreview() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Spoofed Identity:\n\n");
-        sb.append("Fingerprint: ").append(nullSafe(mFingerprintEdit)).append("\n");
-        sb.append("Model: ").append(nullSafe(mModelEdit)).append("\n");
-        sb.append("Manufacturer: ").append(nullSafe(mManufacturerEdit)).append("\n");
-        sb.append("Product: ").append(nullSafe(mProductEdit)).append("\n");
-        sb.append("Device: ").append(nullSafe(mDeviceEdit)).append("\n");
-        sb.append("Security Patch: ").append(nullSafe(mSecurityPatchEdit));
-        mPreviewText.setText(sb.toString());
-    }
-
-    private String nullSafe(EditText edit) {
-        String text = edit.getText().toString().trim();
-        return text.isEmpty() ? "(not set)" : text;
-    }
-
-    private void addAutoSave(EditText edit, ValueSetter setter) {
-        edit.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
-            @Override public void onTextChanged(CharSequence s, int st, int b, int c) {}
+        mDatabaseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void afterTextChanged(Editable s) {
-                if (!mIgnoreTextChange) {
-                    setter.set(s.toString().trim());
-                    updatePreview();
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) return;
+                String label = labels.get(position);
+                mController.applyPropsEntry(label);
+                loadCurrentValues();
             }
-        });
-    }
 
-    private interface ValueSetter {
-        void set(String value);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 }
