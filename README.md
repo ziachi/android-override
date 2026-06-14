@@ -199,6 +199,18 @@ android-override/
 | LineageOS 21+ | ✅ Compatible |
 | Any AOSP-based ROM | ✅ Compatible |
 
+## Build Status
+
+### keepQASSA Sisu v2.4_0.s (Android 10) — Build SUCCESS ✅
+- **Device:** Xiaomi Redmi 4X (santoni)
+- **ZIP:** `qassa_Sisu-v2.4_0.s-UNOFFICIAL-santoni-20260614-1254-Vanilla-signed.zip` (753MB)
+- **MD5:** `372396bc63a7ee186acecf615938303d`
+- **Build time:** 19:36
+- **Signed:** releasekey
+- **4 build fixes applied** — see [android-override-a10/docs/build-fixes.md](https://github.com/ziachi/android-override-a10/blob/main/docs/build-fixes.md)
+
+> For Android 10 specific patches and integration, see [android-override-a10](https://github.com/ziachi/android-override-a10)
+
 ## Contributing
 
 Contributions are welcome. Please ensure all contributions follow the project's security model — no keys, certificates, or proprietary data.
