@@ -54,7 +54,7 @@ public class OverrideController {
     private Context mContext;
 
     // Configuration state
-    private boolean mEnabled = false;
+    private boolean mEnabled = true;
     private String mFingerprint = "";
     private String mModel = "";
     private String mManufacturer = "";
@@ -67,8 +67,8 @@ public class OverrideController {
     private String mActiveKeyboxSlot = "default";
 
     // TEE / Anti-detection
-    private boolean mSpoofTEE = false;
-    private boolean mAntiDetection = false;
+    private boolean mSpoofTEE = true;
+    private boolean mAntiDetection = true;
     private boolean mHideApps = false;
     private boolean mAutoFallback = false;
     private String mBootloaderState = "locked";
@@ -240,8 +240,8 @@ public class OverrideController {
 
     // ========== Getters/Setters ==========
 
-    public boolean isEnabled() { return mEnabled; }
-    public void setEnabled(boolean enabled) { mEnabled = enabled; saveConfig(); }
+    public boolean isEnabled() { return true; }
+    public void setEnabled(boolean enabled) { /* always on */ }
 
     public String getFingerprint() { return mFingerprint; }
     public void setFingerprint(String fp) { mFingerprint = fp; saveConfig(); }
@@ -270,23 +270,23 @@ public class OverrideController {
     }
 
     // TEE
-    public boolean isSpoofTEEEnabled() { return mSpoofTEE; }
-    public void setSpoofTEE(boolean enabled) { mSpoofTEE = enabled; saveConfig(); }
+    public boolean isSpoofTEEEnabled() { return true; }
+    public void setSpoofTEE(boolean enabled) { /* always on */ }
 
     // Anti-detection
-    public boolean isAntiDetectionEnabled() { return mAntiDetection; }
-    public void setAntiDetection(boolean enabled) { mAntiDetection = enabled; saveConfig(); }
+    public boolean isAntiDetectionEnabled() { return true; }
+    public void setAntiDetection(boolean enabled) { /* always on */ }
 
     public boolean isHideAppsEnabled() { return mHideApps; }
     public void setHideApps(boolean enabled) { mHideApps = enabled; saveConfig(); }
 
     // Auto-fallback
-    public boolean isAutoFallbackEnabled() { return mAutoFallback; }
+    public boolean isAutoFallbackEnabled() { return false; }
     public void setAutoFallback(boolean enabled) { mAutoFallback = enabled; saveConfig(); }
 
     // Bootloader
-    public String getBootloaderState() { return mBootloaderState; }
-    public void setBootloaderState(String state) { mBootloaderState = state; saveConfig(); }
+    public String getBootloaderState() { return "locked"; }
+    public void setBootloaderState(String state) { /* always locked */ }
 
     // ========== Per-App ==========
 

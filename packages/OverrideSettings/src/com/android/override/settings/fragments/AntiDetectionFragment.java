@@ -48,11 +48,6 @@ public class AntiDetectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_anti_detection, container, false);
         mController = OverrideController.getInstance();
 
-        // Anti-detection master toggle
-        setupSwitch(view, R.id.switch_anti_detection,
-                mController.isAntiDetectionEnabled(),
-                checked -> mController.setAntiDetection(checked));
-
         // Hide apps toggle
         setupSwitch(view, R.id.switch_hide_apps,
                 mController.isHideAppsEnabled(),
