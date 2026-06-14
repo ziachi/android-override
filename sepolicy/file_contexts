@@ -1,0 +1,7 @@
+# File contexts for Android Override
+#
+# Labels the override config directory so SELinux
+# can enforce proper access control.
+
+# Override config directory
+/data/system/override(/.*)?    u:object_r:override_config_file:s0

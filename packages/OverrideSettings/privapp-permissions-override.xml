@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Privileged permissions whitelist for Override Settings.
+  Place in system_ext/etc/permissions/
+-->
+<permissions>
+    <privapp-permissions package="com.android.override.settings">
+        <permission name="android.permission.WRITE_SECURE_SETTINGS" />
+        <permission name="android.permission.WRITE_SETTINGS" />
+        <permission name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+        <permission name="android.permission.QUERY_ALL_PACKAGES" />
+        <permission name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+        <permission name="android.permission.STATUS_BAR_SERVICE" />
+    </privapp-permissions>
+</permissions>

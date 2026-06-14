@@ -1,0 +1,35 @@
+# SELinux policy for Android Override framework
+#
+# These rules allow the Override system to:
+# - Read/write config files in /data/system/override/
+# - Access keybox files
+# - Read system properties
+# - Interact with keystore service
+#
+# IMPORTANT: Keep rules minimal and targeted.
+# SELinux MUST stay Enforcing.
+
+# Define override config file type
+type override_config_file, file_type, data_file_type;
+
+# Allow system_server to manage override config
+allow system_server override_config_file:dir { create read write open search add_name remove_name };
+allow system_server override_config_file:file { create read write open getattr setattr unlink rename };
+
+# Allow system_app (Settings) to read/write override config
+allow system_app override_config_file:dir { read write open search add_name remove_name };
+allow system_app override_config_file:file { create read write open getattr setattr unlink };
+
+# Allow platform_app to read override config (for OverrideSettings)
+allow platform_app override_config_file:dir { read open search };
+allow platform_app override_config_file:file { read open getattr };
+
+# Allow override to interact with keystore
+allow system_server keystore:keystore2 { get_attestation_key };
+
+# Allow reading system properties used for override
+allow system_server default_prop:property_service set;
+
+# Suppress noisy denials that don't affect functionality
+dontaudit untrusted_app override_config_file:dir search;
+dontaudit untrusted_app override_config_file:file read;

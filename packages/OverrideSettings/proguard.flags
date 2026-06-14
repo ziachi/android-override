@@ -1,0 +1,11 @@
+# Override Settings ProGuard rules
+
+# Keep all Override classes (framework interaction via reflection)
+-keep class com.android.override.** { *; }
+-keep class com.android.override.settings.** { *; }
+
+# Keep fragment classes for navigation
+-keep class * extends androidx.fragment.app.Fragment { *; }
+
+# Keep XML-referenced classes
+-keep class * implements android.os.Parcelable { *; }

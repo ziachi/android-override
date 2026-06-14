@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Override</string>
+    <string name="override_summary">Device spoofing, keybox, Play Integrity</string>
+
+    <!-- Main -->
+    <string name="master_switch">Enable Override</string>
+    <string name="master_switch_summary">Master switch for all spoofing features</string>
+    <string name="status_active">✅ Active</string>
+    <string name="status_disabled">❌ Disabled</string>
+    <string name="pi_status">Play Integrity Status</string>
+
+    <!-- Sections -->
+    <string name="section_fingerprint">Fingerprint Spoofing</string>
+    <string name="section_fingerprint_desc">Spoof device identity for GMS</string>
+    <string name="section_keybox">Keybox Manager</string>
+    <string name="section_keybox_desc">Import and manage attestation keybox</string>
+    <string name="section_per_app">Per-App Profiles</string>
+    <string name="section_per_app_desc">Different spoofing per app</string>
+    <string name="section_profiles">Profiles</string>
+    <string name="section_profiles_desc">Save and switch configurations</string>
+    <string name="section_integrity">Integrity Checker</string>
+    <string name="section_integrity_desc">Check Play Integrity status</string>
+    <string name="section_anti_detection">Anti-Detection</string>
+    <string name="section_anti_detection_desc">Hide root and spoofing traces</string>
+
+    <!-- Fingerprint -->
+    <string name="select_device">Select from database</string>
+    <string name="fingerprint_hint">brand/product/device:version/buildId/incremental:type/tags</string>
+    <string name="model_hint">Device model (e.g. Pixel 9 Pro)</string>
+    <string name="manufacturer_hint">Manufacturer (e.g. Google)</string>
+    <string name="product_hint">Product code (e.g. husky)</string>
+    <string name="device_hint">Device code (e.g. husky)</string>
+    <string name="security_patch_hint">Security patch (e.g. 2025-02-05)</string>
+    <string name="btn_parse">Auto-fill from fingerprint</string>
+    <string name="preview_title">Spoofed Identity Preview</string>
+
+    <!-- Keybox -->
+    <string name="keybox_enabled">Enable Keybox</string>
+    <string name="keybox_enabled_summary">Load and inject attestation keybox</string>
+    <string name="import_keybox">Import Keybox XML</string>
+    <string name="import_named">Import as Named Slot</string>
+    <string name="check_health">Check Keybox Health</string>
+    <string name="keybox_info_title">Loaded Keybox</string>
+    <string name="keybox_slots_title">Keybox Slots</string>
+    <string name="keybox_not_loaded">No keybox loaded — import a valid keybox XML</string>
+    <string name="import_success">✅ Keybox imported successfully</string>
+    <string name="import_failed">❌ Invalid keybox XML</string>
+
+    <!-- Per-App -->
+    <string name="add_app">Add App</string>
+    <string name="per_app_title">Per-App Spoofing</string>
+    <string name="per_app_desc">Configure different fingerprint per app</string>
+    <string name="using_global">Using global config</string>
+
+    <!-- Profiles -->
+    <string name="save_profile">Save Current as Profile</string>
+    <string name="active_profile">Active Profile</string>
+    <string name="profile_saved">✅ Profile saved</string>
+    <string name="profile_activated">✅ Profile activated</string>
+
+    <!-- Integrity -->
+    <string name="check_integrity">Run Check</string>
+    <string name="integrity_title">Play Integrity Prediction</string>
+    <string name="basic_label">BASIC</string>
+    <string name="device_label">DEVICE</string>
+    <string name="strong_label">STRONG</string>
+    <string name="diagnostics_title">Diagnostics</string>
+
+    <!-- Anti-Detection -->
+    <string name="anti_detection_switch">Anti-Detection</string>
+    <string name="anti_detection_summary">Hide spoofing and root traces</string>
+    <string name="hide_apps_switch">Hide Apps</string>
+    <string name="hide_apps_summary">Hide specified apps from detection queries</string>
+    <string name="tee_spoof_switch">TEE Attestation Spoofing</string>
+    <string name="tee_spoof_summary">Spoof security level to TrustedEnvironment</string>
+    <string name="auto_fallback_switch">Auto-Fallback</string>
+    <string name="auto_fallback_summary">Auto-switch profile when attestation fails</string>
+    <string name="bootloader_state">Bootloader State</string>
+    <string name="add_hidden_app">Add Hidden App</string>
+    <string name="hidden_apps_title">Hidden Apps</string>
+    <string name="long_press_remove">Long press to remove</string>
+</resources>

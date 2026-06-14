@@ -1,0 +1,39 @@
+// Copyright (C) 2025 Android Override Project
+//
+// Licensed under the Apache License, Version 2.0
+
+android_app {
+    name: "OverrideSettings",
+
+    srcs: ["src/**/*.java"],
+
+    resource_dirs: ["res"],
+
+    platform_apis: true,
+    certificate: "platform",
+    privileged: true,
+    system_ext_specific: true,
+
+    static_libs: [
+        "androidx.preference_preference",
+        "androidx.appcompat_appcompat",
+        "com.google.android.material_material",
+        "androidx.recyclerview_recyclerview",
+        "androidx.cardview_cardview",
+    ],
+
+    optimize: {
+        proguard_flags_files: ["proguard.flags"],
+    },
+
+    required: ["privapp_whitelist_com.android.override.settings"],
+}
+
+// Privileged permissions whitelist
+prebuilt_etc {
+    name: "privapp_whitelist_com.android.override.settings",
+    system_ext_specific: true,
+    sub_dir: "permissions",
+    src: "privapp-permissions-override.xml",
+    filename_from_src: true,
+}

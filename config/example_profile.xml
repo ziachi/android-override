@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Example profile: Google Pixel 9 Pro
+  
+  Save this as /data/system/override/profiles/pixel9pro.json
+  (converted to JSON format) or create via Settings UI.
+-->
+<profile name="Pixel 9 Pro">
+    <fingerprint>google/husky/husky:15/AP4A.250205.002/12650890:user/release-keys</fingerprint>
+    <model>Pixel 9 Pro</model>
+    <manufacturer>Google</manufacturer>
+    <product>husky</product>
+    <device>husky</device>
+    <security_patch>2025-02-05</security_patch>
+    <spoof_tee>true</spoof_tee>
+    <bootloader_state>locked</bootloader_state>
+
+    <!-- Per-app overrides -->
+    <per_app package="com.whatsapp" enabled="false" />
+    <per_app package="com.bankapp"
+        fingerprint="samsung/dm3q/dm3q:15/AP4A.250105.002/S928BXXS6CXL3:user/release-keys"
+        model="SM-S928B"
+        manufacturer="samsung" />
+</profile>

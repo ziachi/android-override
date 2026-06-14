@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Props Database — Known working device fingerprints.
+  
+  These are used as presets in the Settings UI dropdown.
+  No sensitive data (keybox/keys) is included.
+  
+  Add custom entries by placing a props_database.json
+  in /data/system/override/
+-->
+<props_database>
+    <device name="Pixel 9 Pro" codename="husky">
+        <fingerprint>google/husky/husky:15/AP4A.250205.002/12650890:user/release-keys</fingerprint>
+        <model>Pixel 9 Pro</model>
+        <manufacturer>Google</manufacturer>
+        <security_patch>2025-02-05</security_patch>
+    </device>
+
+    <device name="Pixel 8" codename="shiba">
+        <fingerprint>google/shiba/shiba:15/AP4A.250205.002/12650890:user/release-keys</fingerprint>
+        <model>Pixel 8</model>
+        <manufacturer>Google</manufacturer>
+        <security_patch>2025-02-05</security_patch>
+    </device>
+
+    <device name="Pixel 8a" codename="akita">
+        <fingerprint>google/akita/akita:15/AP4A.250205.002/12650890:user/release-keys</fingerprint>
+        <model>Pixel 8a</model>
+        <manufacturer>Google</manufacturer>
+        <security_patch>2025-02-05</security_patch>
+    </device>
+
+    <device name="Pixel 7 Pro" codename="cheetah">
+        <fingerprint>google/cheetah/cheetah:15/AP4A.250205.002/12650890:user/release-keys</fingerprint>
+        <model>Pixel 7 Pro</model>
+        <manufacturer>Google</manufacturer>
+        <security_patch>2025-02-05</security_patch>
+    </device>
+
+    <device name="Samsung Galaxy S24 Ultra" codename="dm3q">
+        <fingerprint>samsung/dm3q/dm3q:15/AP4A.250105.002/S928BXXS6CXL3:user/release-keys</fingerprint>
+        <model>SM-S928B</model>
+        <manufacturer>samsung</manufacturer>
+        <security_patch>2025-01-05</security_patch>
+    </device>
+
+    <device name="Samsung Galaxy S23 Ultra" codename="dm1q">
+        <fingerprint>samsung/dm1q/dm1q:15/AP4A.250105.002/S918BXXS8DXK2:user/release-keys</fingerprint>
+        <model>SM-S918B</model>
+        <manufacturer>samsung</manufacturer>
+        <security_patch>2025-01-05</security_patch>
+    </device>
+
+    <device name="OnePlus 12" codename="CPH2583">
+        <fingerprint>oneplus/CPH2583/OP5913L1:15/AP4A.250105.002/U.16.0.3:user/release-keys</fingerprint>
+        <model>CPH2583</model>
+        <manufacturer>OnePlus</manufacturer>
+        <security_patch>2025-01-05</security_patch>
+    </device>
+
+    <device name="Xiaomi 14" codename="houji">
+        <fingerprint>xiaomi/houji/houji:15/AP4A.250105.002/OS2.0.6.0.VNCCNXM:user/release-keys</fingerprint>
+        <model>24090RA29C</model>
+        <manufacturer>Xiaomi</manufacturer>
+        <security_patch>2025-01-05</security_patch>
+    </device>
+</props_database>

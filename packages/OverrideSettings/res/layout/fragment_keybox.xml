@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/section_keybox"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Enable switch -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/keybox_enabled" android:textSize="16sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/keybox_enabled_summary" android:textSize="13sp"
+                    android:textColor="?android:attr/textColorSecondary" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/switch_keybox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Keybox Info -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/keybox_info_title"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/text_keybox_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#10000000"
+            android:padding="12dp"
+            android:fontFamily="monospace"
+            android:textSize="12sp"
+            android:text="@string/keybox_not_loaded"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Health Status -->
+        <TextView
+            android:id="@+id/text_health_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Buttons -->
+        <Button
+            android:id="@+id/btn_import_keybox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/import_keybox"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_import_named"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/import_named"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btn_check_health"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/check_health"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Keybox Slots -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/keybox_slots_title"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_keybox_slots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+</ScrollView>

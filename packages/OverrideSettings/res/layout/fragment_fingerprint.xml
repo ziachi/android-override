@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/section_fingerprint"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Props Database Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_device"
+            android:textSize="14sp"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <Spinner
+            android:id="@+id/spinner_props"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Fingerprint -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Build Fingerprint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_fingerprint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fingerprint_hint"
+                android:inputType="text"
+                android:textSize="13sp"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_parse_fingerprint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_parse"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Model -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Model">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/model_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Manufacturer -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Manufacturer">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_manufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/manufacturer_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Product -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Product">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/product_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Device -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:hint="Device">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/device_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Security Patch -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Security Patch">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_security_patch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/security_patch_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Preview -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/preview_title"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/text_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#10000000"
+            android:padding="12dp"
+            android:fontFamily="monospace"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</ScrollView>

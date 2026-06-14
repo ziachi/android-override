@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Default configuration template for android-override.
+  
+  Copy to /data/system/override/config.json and customize.
+  Or use the Settings UI to configure.
+-->
+<override_config>
+    <!-- Master switch -->
+    <enabled>false</enabled>
+
+    <!-- Device identity -->
+    <fingerprint></fingerprint>
+    <model></model>
+    <manufacturer></manufacturer>
+    <product></product>
+    <device></device>
+    <security_patch></security_patch>
+
+    <!-- Keybox (import via Settings UI) -->
+    <keybox_enabled>false</keybox_enabled>
+
+    <!-- TEE Attestation Spoofing -->
+    <spoof_tee>false</spoof_tee>
+    <bootloader_state>locked</bootloader_state>
+
+    <!-- Anti-Detection -->
+    <anti_detection>false</anti_detection>
+    <hide_apps>false</hide_apps>
+
+    <!-- Auto-Fallback -->
+    <auto_fallback>false</auto_fallback>
+</override_config>
