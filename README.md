@@ -7,6 +7,13 @@
 [![Android](https://img.shields.io/badge/Android-13%2B-green.svg)]()
 [![API](https://img.shields.io/badge/API-33%2B-brightgreen.svg)]()
 
+## ⚠️ Status: Untested
+
+> **This repo targets Android 13+ (API 33+) and has NOT been built or tested yet.**
+>
+> The tested & working version is the Android 10 edition:
+> **[android-override-a10](https://github.com/ziachi/android-override-a10)** — tested on keepQASSA Sisu v2.4_0.s (santoni)
+
 ## ⚠️ Disclaimer
 
 This project is provided **strictly for educational and research purposes**. It is intended for custom ROM developers and security researchers who need to understand and manage device identity properties in AOSP-based builds.
@@ -26,6 +33,13 @@ A modular, ROM-integrated framework for managing device identity properties at t
 This is comparable to how custom ROM projects like LineageOS, ProtonAOSP, and others manage device identity in their source trees.
 
 **No keys included** — this is a tool only. Users must provide their own configuration.
+
+## Repos
+
+| Repo | Target | Status |
+|------|--------|--------|
+| [android-override](https://github.com/ziachi/android-override) | Android 13+ (API 33+) | ⚠️ Untested |
+| [android-override-a10](https://github.com/ziachi/android-override-a10) | Android 10 (API 29) | ✅ Tested |
 
 ## Use Cases
 
@@ -151,6 +165,7 @@ After building, configure via **Settings → System → Override**:
 android-override/
 ├── README.md
 ├── LICENSE                          # Apache 2.0
+├── CHANGELOG.md
 ├── patches/
 │   └── frameworks_base/
 │       ├── core/
@@ -189,27 +204,16 @@ android-override/
 - ✅ **SELinux enforcing** — targeted policy rules only
 - ✅ **Config in /data/** — not readable by untrusted apps
 
-## Compatibility
+## Android 10 vs 13+
 
-| ROM Base | Status |
-|----------|--------|
-| AOSP 13+ | ✅ Compatible |
-| AOSP 14  | ✅ Compatible |
-| AOSP 15  | ✅ Compatible |
-| LineageOS 21+ | ✅ Compatible |
-| Any AOSP-based ROM | ✅ Compatible |
-
-## Build Status
-
-### keepQASSA Sisu v2.4_0.s (Android 10) — Build SUCCESS ✅
-- **Device:** Xiaomi Redmi 4X (santoni)
-- **ZIP:** `qassa_Sisu-v2.4_0.s-UNOFFICIAL-santoni-20260614-1254-Vanilla-signed.zip` (753MB)
-- **MD5:** `372396bc63a7ee186acecf615938303d`
-- **Build time:** 19:36
-- **Signed:** releasekey
-- **4 build fixes applied** — see [android-override-a10/docs/build-fixes.md](https://github.com/ziachi/android-override-a10/blob/main/docs/build-fixes.md)
-
-> For Android 10 specific patches and integration, see [android-override-a10](https://github.com/ziachi/android-override-a10)
+| Aspect | Android 13+ (this repo) | Android 10 ([a10](https://github.com/ziachi/android-override-a10)) |
+|--------|-------------------------|------|
+| Attestation HAL | KeyMint | Keymaster 4.x |
+| Verification API | Play Integrity | SafetyNet Attestation |
+| Target SDK | 33+ | 29 |
+| Base64 | java.util.Base64 | android.util.Base64 |
+| Storage | Scoped storage | READ/WRITE_EXTERNAL_STORAGE |
+| Status | ⚠️ Untested | ✅ Tested |
 
 ## Contributing
 
